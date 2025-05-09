@@ -12,29 +12,14 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-require('dotenv').config(); // Load env variables first
-
 const express = require('express');
-const cors = require('cors');
-const connectDB = require('./config/db');
-const authRoutes = require('./routes/authRoutes');
 
-const app = express();
+const { register, login, getUserInfo } = require('../controllers/authController');
 
-// Connect to MongoDB
-connectDB();
+const router = express.Router();
 
-// Register routes
-app.use("api/auth", authRoutes);
+router.post('/register', register);
+router.post('/login', login);
+router.get('/user',protect, getUserInfo);
 
-app.use(express.json());
-app.use(cors());
-
-app.get('/', (req, res) => {
-  res.send('API is running...');
-});
-
-const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`);
-});
+module.exports = router;
