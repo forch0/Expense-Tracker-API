@@ -13,19 +13,24 @@
 // limitations under the License.
 
 require('dotenv').config(); // Load env variables first
-
 const express = require('express');
 const cors = require('cors');
 const connectDB = require('./config/db');
 const authRoutes = require('./routes/authRoutes');
+
 
 const app = express();
 
 // Connect to MongoDB
 connectDB();
 
-// Register routes
-app.use("api/auth", authRoutes);
+// Rwgister routes
+app.use('/api/v1/auth', authRoutes);
+
+// Serve uplqoded images
+app.use('/uploads', express.static('uploads'));
+
+
 
 app.use(express.json());
 app.use(cors());
